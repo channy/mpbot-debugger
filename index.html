@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<style>
+#result { float:left; border: 1px solid #666; background-color: #eee; padding: 10px; width:500px;height: 500px; overflow:scroll;}
+#desc {float:left; width:500px; padding: 10px;}
+</style>
+<body>
+<h2><img src="icon.jpg" width="32" align="absmiddle"> Mpbot Debugger 1.0</h2>
+
+<div id="result"></div>
+<div id="desc">
+<b>목적</b>
+<p>본 프로그램은 인트라넷의 개발 서버와 <a href="http://dna.daum.net/apis/mypeople/ref" target="_blank">마이피플 봇 API</a> 서버 간의 연결 및 실시간 HTTP 로그를 통하여 효율적인 디버깅을 위해 만들어졌습니다.
+본 페이지는 HTML5 Server-sent event로 구현되었습니다. Firefox, Chrome, Safari를 사용하시기 바랍니다.</p>
+
+<b>설치 방법</b>
+<ol>
+<li>서버쪽 코드는 <a href="https://github.com/channy/mpbot-debugger/blob/master/callback.php" target="_blank">callback.php</a>에 있습니다. 마이피플 봇 설정의 콜백 URL에 넣으시면 됩니다.
+<li>클라이언트 코드는 본 HTML 페이지에서 아래 서버 스크립트만 수정하면 됩니다.<br>
+	<small>var source=new EventSource("callback.php");</small> 
+<li>로그 파일은 4k이상 커지면 자동으로 지워집니다.
+</ol>
+<b>테스트 방법</b><br>
+<ol>
+<li>마이피플 PC 버전에 로그인 합니다.
+<li>'친구추가' 탭에서 'ID 친구찾기'를 눌러 'channy.bot'을 입력합니다.
+<li>친구 추가에 대한 addBuddy 콜백 로그가 보입니다.
+<li>메시지를 입력 하시면 sendFromMessage 콜백 로그가 보입니다.
+<li>봇 응답 기능은 가상 개발 서버의 <a href="https://github.com/channy/mpbot-debugger/blob/master/action.php" target="_blank">action.php</a>이며, <a href="https://github.com/daumdna/apis/blob/master/Samples/8.Mypeople/BotAPI/PHP/callback.php" target="_blank">봇 API 샘플 코드</a>를 기반하였습니다.
+<li>더 자세한 사항은 <a href="http://github.com/channy/mpbot_debugger">github 코드</a>를 참고하세요.
+</ol>
+</div>
+
+<footer>
+<small>Except where otherwise noted, content on this site is licensed under the Creative Commons Attribution Share-Alike License v3.0 or any later version.</small>
+</footer>
+
+<script>
+if(typeof(EventSource)!=="undefined")
+  {
+  var source=new EventSource("callback.php");
+  source.onmessage=function(event)
+    {
+    document.getElementById("result").innerHTML="<pre>" + event.data + "<pre>";
+    };
+  }
+else
+  {
+  document.getElementById("result").innerHTML="현재 브라우저는 Server-sent Event를 지원하지 않습니다. Firefox, Chrome, Safari 등을 사용해 보세요! ";
+  }
+</script>
+
+</body>
+</html>

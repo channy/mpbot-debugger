@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<style>
+#result { float:left; border: 1px solid #666; background-color: #eee; padding: 10px; width:500px;height: 500px; overflow:scroll;}
+#desc {float:left; width:500px; padding: 10px;}
+</style>
+<body>
+<h2><img src="icon.jpg" width="32" align="absmiddle"> Mpbot Debugger 1.0</h2>
+
+<div id="result"></div>
+<div id="desc">
+<b>Purpose</b>
+<p> This program is simple realtime logger by HTML5 server-sent event and HTTP redirector between developer's local and callback server for <a href="http://dna.daum.net/apis/mypeople/ref" target="_blank">Mypeople Bot API</a>. You can debug HTTP request/responses and implement early features using developer's PC inner intranet.</p>
+<p>Please use Firefox, Chrome, Safari not Internet Explorer.</p>
+
+<b>Install</b>
+<ol>
+<li>Server script: <a href="https://github.com/channy/mpbot-debugger/blob/master/callback.php" target="_blank">callback.php</a>
+<li>Client script: You can use this HTML code direct and only edit event source location.<br>
+	<small>var source=new EventSource("callback.php");</small> 
+<li>If log file sizes up 4k, logs are deleted automatically.
+</ol>
+<b>How to Test</b><br>
+<ol>
+<li>Download and install <a href=http://mypeople.daum.net" target="_blank">Mypeople PC version</a>.
+<li>In tab of 'Add friends', input 'channy.bot' with 'Find by ID'.
+<li>You can see addBuddy log when a friend is added.
+<li>You can see sendFromMessage when a message is sent.
+<li>Real response is done by <a href="https://github.com/channy/mpbot-debugger/blob/master/action.php" target="_blank">action.php</a> of developer's PC and its code is based on <a href="https://github.com/daumdna/apis/blob/master/Samples/8.Mypeople/BotAPI/PHP/callback.php" target="_blank">Bot API sample code</a> of Daum DNA's github.
+<li>Please check out <a href="http://github.com/channy/mpbot_debugger">github code</a> and detail.
+</ol>
+</div>
+
+<footer>
+<small>Except where otherwise noted, content on this site is licensed under the Creative Commons Attribution Share-Alike License v3.0 or any later version.</small>
+</footer>
+
+<script>
+if(typeof(EventSource)!=="undefined")
+  {
+  var source=new EventSource("callback.php");
+  source.onmessage=function(event)
+    {
+    document.getElementById("result").innerHTML="<pre>" + event.data + "<pre>";
+    };
+  }
+else
+  {
+  document.getElementById("result").innerHTML="You cannot use Server-sent Event in this browser. Please use Firefox or Chrome or Safari!";
+  }
+</script>
+
+</body>
+</html>
